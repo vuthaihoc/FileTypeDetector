@@ -1,5 +1,5 @@
 <?php
-namespace wapmorgan\FileTypeDetector;
+namespace Dok123\FileTypeDetector;
 
 class TerminalInfo {
     const WIDTH = 1;

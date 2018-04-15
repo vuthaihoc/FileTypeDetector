@@ -2,9 +2,9 @@
 <?php
 require __DIR__.'/../vendor/autoload.php';
 
-use wapmorgan\FileTypeDetector\Detector;
+use Dok123\FileTypeDetector\Detector;
 
-$class = new ReflectionClass('wapmorgan\FileTypeDetector\Detector');
+$class = new ReflectionClass('Dok123\FileTypeDetector\Detector');
 $properties = $class->getDefaultProperties();
 
 $all_formats = $properties['extensions'];

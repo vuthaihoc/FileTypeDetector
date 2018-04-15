@@ -1,8 +1,8 @@
 <?php
-namespace wapmorgan\test\FileTypeDetector;
+namespace Dok123\test\FileTypeDetector;
 
 use PHPUnit\Framework\TestCase;
-use wapmorgan\FileTypeDetector\Detector;
+use Dok123\FileTypeDetector\Detector;
 
 class DetectorTest extends TestCase {
     /**
@@ -44,4 +44,12 @@ class DetectorTest extends TestCase {
     public function testMimetypeGeneration($filename, $expectedType) {
         $this->assertEquals($expectedType[2], Detector::getMimeType($filename));
     }
+	
+	public function testDetectionByPngUrl() {
+		$source = "http://img.vth8.com:9981/images/2017/12/24/Videos.png";
+		$file = __DIR__ . "/image_test.png";
+		$actual = Detector::detectByContent( $source);
+		$expected = Detector::detectByContent( $file);
+		$this->assertEquals( $expected, $actual);
+	}
 }

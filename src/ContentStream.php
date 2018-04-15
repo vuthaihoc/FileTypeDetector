@@ -1,5 +1,5 @@
 <?php
-namespace wapmorgan\FileTypeDetector;
+namespace Dok123\FileTypeDetector;
 
 use \Exception;
 
@@ -9,8 +9,12 @@ class ContentStream {
     protected $read = array();
 
     public function __construct($source) {
+    	// check url
+	    if(is_string($source) && preg_match( "/^https?\:\/\//", $source)){
+		    $this->fp = $this->getFewFirstBytes( $source);
+	    }
         // open regular file
-        if (is_string($source) && file_exists($source)) {
+        else if (is_string($source) && file_exists($source)) {
             $this->fp = fopen($source, 'rb');
         }
         // open stream
@@ -26,6 +30,23 @@ class ContentStream {
         } else {
             throw new Exception('Unknown source: '.var_export($source, true).' ('.gettype($source).')');
         }
+    }
+    
+    public function getFewFirstBytes($url){
+	    $opts = array('http' =>
+		                  array(
+			                  'method'  => 'GET',
+			                  'user_agent '  => "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2) Gecko/20100301 Ubuntu/9.10 (karmic) Firefox/3.6",
+			                  'header' => array(
+				                  'Accept: *'
+			                  ),
+		                  )
+	    );
+	    $context  = stream_context_create($opts);
+	    $bytes = file_get_contents($url, false, $context, 0, 768);
+	    $f = tmpfile();
+	    fwrite( $f, $bytes);
+	    return $f;
     }
 
     public function checkBytes($offset, $ethalon) {

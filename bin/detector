@@ -2,8 +2,8 @@
 <?php
 require __DIR__.'/../vendor/autoload.php';
 
-use wapmorgan\FileTypeDetector\Detector;
-use wapmorgan\FileTypeDetector\TerminalInfo;
+use Dok123\FileTypeDetector\Detector;
+use Dok123\FileTypeDetector\TerminalInfo;
 
 if ($argc == 1)
     die('Specify file names to perform detection');

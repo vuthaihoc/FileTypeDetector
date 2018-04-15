@@ -30,11 +30,11 @@ In case of failure it will return `false`.
 Example:
 
 ```php
-$type = wapmorgan\FileTypeDetector\Detector::detectByFilename($filename);
+$type = Dok123\FileTypeDetector\Detector::detectByFilename($filename);
 // or
-$type = wapmorgan\FileTypeDetector\Detector::detectByContent('file-without-extension');
+$type = Dok123\FileTypeDetector\Detector::detectByContent('file-without-extension');
 // or
-$type = wapmorgan\FileTypeDetector\Detector::detectByContent(fopen('http://somedomain/somepath', 'r'));
+$type = Dok123\FileTypeDetector\Detector::detectByContent(fopen('http://somedomain/somepath', 'r'));
 ```
 
 ## Mimetype generation
@@ -42,9 +42,9 @@ $type = wapmorgan\FileTypeDetector\Detector::detectByContent(fopen('http://somed
 To get correct mimetype for file only there is `getMimeType($file)` function.
 
 ```php
-$mime = wapmorgan\FileTypeDetector\Detector::getMimeType($file);
+$mime = Dok123\FileTypeDetector\Detector::getMimeType($file);
 // or
-$mime = wapmorgan\FileTypeDetector\Detector::getMimeType(fopen('somefile', 'r'));
+$mime = Dok123\FileTypeDetector\Detector::getMimeType(fopen('somefile', 'r'));
 ```
 
 # Installation

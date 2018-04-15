@@ -1,5 +1,5 @@
 <?php
-namespace wapmorgan\FileTypeDetector;
+namespace Dok123\FileTypeDetector;
 
 class Detector {
     const AUDIO = 'audio';
