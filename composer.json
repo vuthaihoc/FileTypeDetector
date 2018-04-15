@@ -1,5 +1,5 @@
 {
-    "name": "dok123/file-type-detector",
+    "name": "123dok/file-type-detector",
     "description": "Detects file type by filename or content and generates correct mimetype.",
     "keywords": ["mimetype", "files", "formats", "filetype"],
     "license": "MIT",

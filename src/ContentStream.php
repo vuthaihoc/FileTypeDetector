@@ -7,6 +7,8 @@ class ContentStream {
     protected $openedOutside = false;
     protected $fp;
     protected $read = array();
+    protected $url = "";
+    protected $header = "";
 
     public function __construct($source) {
     	// check url
@@ -32,7 +34,9 @@ class ContentStream {
         }
     }
     
-    public function getFewFirstBytes($url){
+    public function getFewFirstBytes($url, $maxlen = 600){
+    	echo "downloading ...\n";
+    	$this->url = $url;
 	    $opts = array('http' =>
 		                  array(
 			                  'method'  => 'GET',
@@ -43,10 +47,21 @@ class ContentStream {
 		                  )
 	    );
 	    $context  = stream_context_create($opts);
-	    $bytes = file_get_contents($url, false, $context, 0, 768);
 	    $f = tmpfile();
+	    if($maxlen == null){
+		    $bytes = file_get_contents($url, false, $context);
+	    }else{
+		    $bytes = file_get_contents($url, false, $context, 0, $maxlen);
+	    }
+	    $this->header = $http_response_header;
 	    fwrite( $f, $bytes);
 	    return $f;
+    }
+    
+    public function getAllBytes(){
+    	if(!empty($this->url)){
+		    $this->fp = $this->getFewFirstBytes( $this->url, null);
+	    }
     }
 
     public function checkBytes($offset, $ethalon) {

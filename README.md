@@ -50,7 +50,7 @@ $mime = Dok123\FileTypeDetector\Detector::getMimeType(fopen('somefile', 'r'));
 # Installation
 Install package via composer:
 ```
-composer require wapmorgan/file-type-detector
+composer require 123dok/file-type-detector
 ```
 
 # Supported formats

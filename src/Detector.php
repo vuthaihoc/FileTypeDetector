@@ -71,6 +71,7 @@ class Detector {
 
     const PPT = 'ppt';
     const PPTX = 'pptx';
+    const XOFFICES = 'xoffices';
     const ODP = 'odp';
 
     const FLAC = 'flac';
@@ -163,6 +164,7 @@ class Detector {
         'xap' => self::XAP,
         'ppt' => self::PPT,
         'pptx' => self::PPTX,
+        'xoffices' => self::XOFFICES,
         'odp' => self::ODP,
         'flac' => self::FLAC,
         'wma' => self::WMA,
@@ -245,6 +247,7 @@ class Detector {
             self::JSON,
             self::YAML,
             self::XML,
+	        self::XOFFICES,
         ),
 
         self::FEED => array(
@@ -397,6 +400,8 @@ class Detector {
         self::WEBM => 'video/webm',
 
         self::REG => 'text/plain',
+	    
+	    self::XOFFICES => 'application/vnd.openxmlformats-officedocument.xofice',
     );
 
     protected static $signatures = [
@@ -491,6 +496,13 @@ class Detector {
                 // and
                 512 => [0x0F, 0x00, 0xE8, 0x03]
             ]
+        ],
+
+
+        self::XOFFICES => [
+	        [
+		        0 => [0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x06, 0x00],
+	        ]
         ],
 
         // Microsoft Office new formats (docx, xlsx, pptx)
@@ -688,7 +700,7 @@ class Detector {
         return false;
     }
 
-    public static function detectByContent($source) {
+    public static function detectByContent($source, $smart = false) {
         $stream = new ContentStream($source);
         foreach (self::$signatures as $format => $signatures) {
             foreach ($signatures as $or_signature) {
@@ -714,6 +726,10 @@ class Detector {
                 }
                 // if earlier we did not break inner loop, then all signatures matched
                 if ($passed) {
+                	if($format == self::XOFFICES && $smart){
+                		$stream->getAllBytes();
+                		break;
+	                }
                     $format = array(null, $format);
                     foreach (self::$types as $type => $formats) {
                         if (in_array($format[1], $formats)) {
