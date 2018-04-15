@@ -35,7 +35,6 @@ class ContentStream {
     }
     
     public function getFewFirstBytes($url, $maxlen = 600){
-    	echo "downloading ...\n";
     	$this->url = $url;
 	    $opts = array('http' =>
 		                  array(
