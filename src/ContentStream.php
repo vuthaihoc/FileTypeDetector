@@ -39,9 +39,10 @@ class ContentStream {
 	    $opts = array('http' =>
 		                  array(
 			                  'method'  => 'GET',
-			                  'user_agent '  => "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2) Gecko/20100301 Ubuntu/9.10 (karmic) Firefox/3.6",
+//			                  'user_agent '  => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36",
 			                  'header' => array(
-				                  'Accept: *'
+				                  'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\r\n'
+				                  . "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36"
 			                  ),
 		                  )
 	    );
@@ -52,6 +53,7 @@ class ContentStream {
 	    }else{
 		    $bytes = file_get_contents($url, false, $context, 0, $maxlen);
 	    }
+	    print_r($bytes);
 	    $this->header = $http_response_header;
 	    fwrite( $f, $bytes);
 	    return $f;
