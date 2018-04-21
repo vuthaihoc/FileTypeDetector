@@ -44,7 +44,11 @@ class ContentStream {
 				                  'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\r\n'
 				                  . "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36"
 			                  ),
-		                  )
+		                  ),
+	                  "ssl"=>array(
+		                  "verify_peer"=>false,
+		                  "verify_peer_name"=>false,
+	                  )
 	    );
 	    $context  = stream_context_create($opts);
 	    $f = tmpfile();
@@ -53,8 +57,10 @@ class ContentStream {
 	    }else{
 		    $bytes = file_get_contents($url, false, $context, 0, $maxlen);
 	    }
-	    print_r($bytes);
-	    $this->header = $http_response_header;
+//	    print_r($bytes);
+	    if(isset($http_response_header)){
+	    	$this->header = $http_response_header;
+	    }
 	    fwrite( $f, $bytes);
 	    return $f;
     }
