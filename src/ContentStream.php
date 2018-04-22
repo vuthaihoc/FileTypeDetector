@@ -35,7 +35,7 @@ class ContentStream {
     }
     
     public function getFewFirstBytes($url, $maxlen = 600){
-    	$this->url = $url;
+    	$this->url = $this->encodeNoneASCIIChar( $url);
 	    $opts = array('http' =>
 		                  array(
 			                  'method'  => 'GET',
@@ -124,5 +124,11 @@ class ContentStream {
     public function __destruct() {
         if (!$this->openedOutside)
             fclose($this->fp);
+    }
+    
+    private function encodeNoneASCIIChar($url){
+    	return preg_replace_callback( "/[^\x01-\x7F]/u", function ($matches){
+    		return urlencode( $matches[0]);
+	    }, $url);
     }
 }
