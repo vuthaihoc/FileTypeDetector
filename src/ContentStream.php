@@ -39,9 +39,14 @@ class ContentStream {
 	    $opts = array('http' =>
 		                  array(
 			                  'method'  => 'GET',
+			                  'follow_location' => true,
 //			                  'user_agent '  => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36",
 			                  'header' => array(
-				                  'Accept: */*\r\n'
+				                  "Connection: keep-alive\r\n"
+				                  . "Cache-Control: no-cache\r\n"
+				                  . "Accept-Encoding: gzip, deflate, br\r\n"
+				                  . "Cookie: a=b\r\n"
+				                  . "Accept: */*\r\n"
 				                  . "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36"
 			                  ),
 		                  ),
