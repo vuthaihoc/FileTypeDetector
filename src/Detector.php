@@ -702,6 +702,7 @@ class Detector {
 
     public static function detectByContent($source, $smart = false) {
         $stream = new ContentStream($source);
+        // check by signal
         foreach (self::$signatures as $format => $signatures) {
             foreach ($signatures as $or_signature) {
                 $passed = true;
@@ -742,6 +743,11 @@ class Detector {
                 }
             }
         }
+        // check by header
+	    $mime_type = $stream->getContentType();
+        if($mime_type && $format = self::checkByMimeType( $mime_type)){
+        	return $format;
+        }
         return false;
     }
 
@@ -750,5 +756,12 @@ class Detector {
         if ($format === false)
             return false;
         return $format[2];
+    }
+    
+    public static function checkByMimeType($mimeType){
+        if($key = array_search( $mimeType, self::$mimeTypes)){
+        	return $key;
+        }
+        return false;
     }
 }

@@ -8,7 +8,7 @@ class ContentStream {
     protected $fp;
     protected $read = array();
     protected $url = "";
-    protected $header = "";
+    protected $header = [];
 
     public function __construct($source) {
     	// check url
@@ -68,6 +68,20 @@ class ContentStream {
 	    }
 	    fwrite( $f, $bytes);
 	    return $f;
+    }
+    
+    public function getContentType(){
+        if(empty( $this->header)){
+        	return false;
+        }
+        foreach ($this->header as $header){//echo $header;
+        	$count = 0;
+        	$mime_type = preg_replace( '/^Content-type\s*\:\s*/i', "", $header, -1, $count);
+        	if($count){
+        		return $mime_type;
+	        }
+        }
+        return false;
     }
     
     public function getAllBytes(){
