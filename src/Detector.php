@@ -746,7 +746,15 @@ class Detector {
         // check by header
 	    $mime_type = $stream->getContentType();
         if($mime_type && $format = self::checkByMimeType( $mime_type)){
-        	return $format;
+	        $format = array(null, $format);
+	        foreach (self::$types as $type => $formats) {
+		        if (in_array($format[1], $formats)) {
+			        $format[0] = $type;
+			        break;
+		        }
+	        }
+	        $format[2] = isset(self::$mimeTypes[$format[1]]) ? self::$mimeTypes[$format[1]] : false;
+	        return $format;
         }
         return false;
     }
