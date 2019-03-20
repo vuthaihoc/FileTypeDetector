@@ -495,20 +495,19 @@ class Detector {
                 0 => [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1],
                 // and
                 512 => [0x0F, 0x00, 0xE8, 0x03]
-            ]
-        ],
-
-
-        self::XOFFICES => [
+            ],
+	        // or
 	        [
-		        0 => [0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x06, 0x00],
-	        ]
+		        0 => [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1],
+	        	512 => [0xFD, 0xFF, 0xFF, 0xFF],
+		        518 => [0x00, 0x00],
+	        ],
         ],
 
         // Microsoft Office new formats (docx, xlsx, pptx)
         self::DOCX => [
             [
-                0 => [0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x06, 0x00],
+                0 => [0x50, 0x4B, 0x03, 0x04],//, 0x14, 0x00, 0x06, 0x00],
                 // and
                 // search for substring at the end of file
                 -22 => [
@@ -541,6 +540,12 @@ class Detector {
                     'reverse' => true
                 ]
             ]
+        ],
+
+        self::XOFFICES => [
+	        [
+		        0 => [ 0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x06, 0x00 ],
+	        ]
         ],
 
         // Open Alliance formats
