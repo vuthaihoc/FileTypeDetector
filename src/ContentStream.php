@@ -9,6 +9,7 @@ class ContentStream {
     protected $read = array();
     protected $url = "";
     protected $header = [];
+    protected $path;
 
     public function __construct($source) {
     	// check url
@@ -17,6 +18,7 @@ class ContentStream {
 	    }
         // open regular file
         else if (is_string($source) && file_exists($source)) {
+	    	$this->path = $source;
             $this->fp = fopen($source, 'rb');
         }
         // open stream
@@ -40,11 +42,10 @@ class ContentStream {
 		                  array(
 			                  'method'  => 'GET',
 			                  'follow_location' => true,
-//			                  'user_agent '  => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36",
 			                  'header' => array(
 				                  "Connection: keep-alive\r\n"
 				                  . "Cache-Control: no-cache\r\n"
-				                  . "Accept-Encoding: gzip, deflate, br\r\n"
+				                  . "Accept-Encoding: deflate, gzip;q=1.0, *;q=0.5, br\r\n"
 				                  . "Cookie: a=b\r\n"
 				                  . "Accept: */*\r\n"
 				                  . "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36"
@@ -66,6 +67,9 @@ class ContentStream {
 	    if(isset($http_response_header)){
 	    	$this->header = $http_response_header;
 	    }
+	    if(array_search( "Content-Encoding: gzip", $this->header)){
+            $bytes = gzdecode( $bytes );
+        }
 	    fwrite( $f, $bytes);
 	    return $f;
     }
@@ -82,6 +86,13 @@ class ContentStream {
 	        }
         }
         return false;
+    }
+    
+    public function getMimeByPhp(){
+	    if($this->path){
+	    	return mime_content_type( $this->path );
+	    }
+	    return false;
     }
     
     public function getAllBytes(){

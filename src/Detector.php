@@ -761,6 +761,15 @@ class Detector {
 	        $format[2] = isset(self::$mimeTypes[$format[1]]) ? self::$mimeTypes[$format[1]] : false;
 	        return $format;
         }
+        // fail back by php builtin
+	    $mime_type = $stream->getMimeByPhp();
+	    if($mime_type && $ext = array_search( $mime_type, self::$mimeTypes)){
+	    	return [
+	    		null,
+			    $ext,
+			    $mime_type
+		    ];
+	    }
         return false;
     }
 
